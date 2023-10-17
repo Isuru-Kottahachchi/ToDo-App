@@ -1,0 +1,27 @@
+.todo {
+  margin: 1rem auto;
+  padding: 1rem;
+  background-color: #230052;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  border-radius: 12px;
+  text-align: left;
+  color: white;
+  width: 50%;
+}
+
+.todo li {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.todo input {
+  margin-right: 25px;
+}
+
+.todo button {
+  margin-left: auto;
+  font-size: 18px;
+
+}

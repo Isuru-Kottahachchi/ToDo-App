@@ -1,0 +1,13 @@
+.header {
+    height: 10rem;
+    background-color:   #0D0D0D;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 4rem;
+    color: blue;
+    font-family: Georgia, serif;
+;
+
+}
