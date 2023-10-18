@@ -14,7 +14,6 @@ const ModalDialog = () => {
     const { dispatch } = useContext(TodoContext);
     const [isLoading, setIsLoading] = useState(false);
 
-
     const showModal = () => {
         setIsModalVisible(true);
     };
@@ -24,11 +23,8 @@ const ModalDialog = () => {
     };
 
     const handleOk = async () => {
-        setIsLoading(true)
-
+        setIsLoading(true);
         setIsModalVisible(false);
-
-        console.log({ title })
 
         try {
             await axios.post(
@@ -40,11 +36,19 @@ const ModalDialog = () => {
                     },
                 }
             );
-
-            dispatch({ type: 'ADD_TASK', payload: [{ "title": title, "completed": false }] });
+            //dispatch({ type: 'ADD_TASK', payload: [{ "title": title, "completed": false }] });
             setTitle('');
-            setIsLoading(false)
+            setIsLoading(false);
             console.log('Task added successfully!');
+
+            const response = await axios.get('api/v1/task', {
+                headers: {
+                    Authorization: 'Bearer Q3jc33KrD7zCaLEU8GNu2ZlPoXPoFwgtLF9kH-FwGWycoOM5jg'
+                }
+            });
+            dispatch({ type: 'SET_TASKS', payload: response.data.items });
+            setIsLoading(false);
+
         } catch (error) {
             console.error('Error adding task:', error);
         }
@@ -52,8 +56,6 @@ const ModalDialog = () => {
 
     return (
         <div>
-
-
             <Button type="primary" onClick={showModal}>
                 Add New <PlusCircleFilled />
             </Button>
@@ -67,7 +69,7 @@ const ModalDialog = () => {
                     <Button key="cancel" onClick={handleCancel}>
                         Cancel
                     </Button>,
-                    <Button key="confirm" type="primary" onClick={handleOk}>
+                    <Button key="confirm" type="primary" disabled={!title} onClick={handleOk}>
                         Confirm
                     </Button>,
                 ]}

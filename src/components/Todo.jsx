@@ -17,13 +17,12 @@ const Todo = () => {
     console.log(tasks)
 
     const deleteHandler = async (id) => {
-        console.log(id)
 
         const url = 'api/v1/task/' + id;
-
+        setIsLoading(true);
         try {
 
-            const confirmed = window.confirm('Are you sure you want to delete this ?');
+            const confirmed = window.confirm('Are you sure you want to delete this task?');
             if (confirmed) {
 
                 await axios.delete(
@@ -34,10 +33,18 @@ const Todo = () => {
                         },
                     }
                 );
-                dispatch({ type: 'REMOVE_TASKS', payload: id });
-                console.log('Item deleted!');
+                //dispatch({ type: 'REMOVE_TASK', payload: id });
+                console.log('Task deleted successfully!');
             }
-            console.log('Task deleted successfully!');
+
+            const response = await axios.get('api/v1/task', {
+                headers: {
+                    Authorization: 'Bearer Q3jc33KrD7zCaLEU8GNu2ZlPoXPoFwgtLF9kH-FwGWycoOM5jg'
+                }
+            });
+            dispatch({ type: 'SET_TASKS', payload: response.data.items });
+            setIsLoading(false);
+
         } catch (error) {
             console.error('Error deleting task:', error);
         }
@@ -45,13 +52,12 @@ const Todo = () => {
     }
 
     const handleCheckboxChange = async (id) => {
-        setIsLoading(true)
+        setIsLoading(true);
         const url = 'api/v1/task/' + id;
         const taskWithUUID = tasks.find(task => task._uuid === id);
         try {
             if (taskWithUUID) {
                 const completed = taskWithUUID.completed;
-                console.log(completed);
 
                 await axios.put(
                     url, { "completed": !completed },
@@ -62,15 +68,14 @@ const Todo = () => {
                     }
                 );
             }
-            setIsLoading(false)
+            setIsLoading(false);
 
             dispatch({ type: 'CHANGE_TASK_STATUS', payload: id });
         }
-        catch {
-
+        catch (error) {
+            console.log(error);
         }
     }
-
 
     return (
         <div className={Classes.todo}>
@@ -86,7 +91,7 @@ const Todo = () => {
                         <p style={{ textDecoration: task.completed ? 'line-through' : 'none' }}>
                             {task.title}
                         </p>
-                        <Button onClick={() => deleteHandler(task._uuid)} ><DeleteFilled /></Button>
+                        <Button onClick={() => deleteHandler(task._uuid)}><DeleteFilled /></Button>
                     </li>
                 ))}
             </ul>

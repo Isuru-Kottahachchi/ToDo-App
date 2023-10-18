@@ -11,11 +11,11 @@ const todoReducer = (state, action) => {
   switch (action.type) {
     case 'SET_TASKS':
       return { ...state, tasks: action.payload };
-    case 'ADD_TASK':
-      return { ...state, tasks: [...action.payload, ...state.tasks] };
-    case 'REMOVE_TASK':
-      const updatedTasks = state.tasks.filter(task => task._uuid !== action.payload);
-      return { ...state, tasks: updatedTasks };
+    //case 'ADD_TASK':
+    // return { ...state, tasks: [...action.payload, ...state.tasks] };
+    //case 'REMOVE_TASK':
+    //const updatedTasks = state.tasks.filter(task => task._uuid !== action.payload);
+    //return { ...state, tasks: updatedTasks };
     case 'CHANGE_TASK_STATUS':
       const updatedTask = state.tasks.map(task => {
         if (task._uuid === action.payload && task.completed === false) {

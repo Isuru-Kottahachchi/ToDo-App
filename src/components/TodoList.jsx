@@ -20,16 +20,14 @@ const TodoList = () => {
                     }
                 });
                 dispatch({ type: 'SET_TASKS', payload: response.data.items });
-                setIsLoading(false)
+                setIsLoading(false);
 
             } catch (error) {
                 console.error('Error fetching tasks:', error);
             }
         };
-
         fetchData();
     }, [dispatch]);
-
 
     return (
         <div>
@@ -40,11 +38,8 @@ const TodoList = () => {
             {!isLoading && state.tasks.length === 0 && <p style={{ fontSize: '20px' }}>
                 <FileExcelOutlined style={{ fontSize: '30px' }} /> No Data.
             </p>}
-
             {!isLoading && state.tasks.length > 0 && <Todo />}
-
         </div>
-
     );
 };
 
