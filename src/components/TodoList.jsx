@@ -11,6 +11,7 @@ const TodoList = () => {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
+
         const fetchData = async () => {
             try {
                 const response = await axios.get('api/v1/task', {
@@ -20,15 +21,15 @@ const TodoList = () => {
                 });
                 dispatch({ type: 'SET_TASKS', payload: response.data.items });
                 setIsLoading(false)
-               
+
             } catch (error) {
                 console.error('Error fetching tasks:', error);
             }
         };
 
         fetchData();
-    }, []);
-  
+    }, [dispatch]);
+
 
     return (
         <div>

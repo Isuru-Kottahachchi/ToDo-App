@@ -3,6 +3,7 @@ import { Button, Modal } from 'antd';
 import Classes from './ModalDialog.module.css'
 import { PlusCircleFilled } from '@ant-design/icons';
 import { TodoContext } from '../store/TodoContext';
+import { Spin } from 'antd';
 
 import axios from 'axios';
 
@@ -11,6 +12,7 @@ const ModalDialog = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [title, setTitle] = useState('');
     const { dispatch } = useContext(TodoContext);
+    const [isLoading, setIsLoading] = useState(false);
 
 
     const showModal = () => {
@@ -22,6 +24,7 @@ const ModalDialog = () => {
     };
 
     const handleOk = async () => {
+        setIsLoading(true)
 
         setIsModalVisible(false);
 
@@ -38,8 +41,9 @@ const ModalDialog = () => {
                 }
             );
 
-            //dispatch({ type: 'SET_TASKS', payload:    [{ "title": title, "completed": false }]});
+            dispatch({ type: 'ADD_TASK', payload: [{ "title": title, "completed": false }] });
             setTitle('');
+            setIsLoading(false)
             console.log('Task added successfully!');
         } catch (error) {
             console.error('Error adding task:', error);
@@ -48,6 +52,8 @@ const ModalDialog = () => {
 
     return (
         <div>
+
+
             <Button type="primary" onClick={showModal}>
                 Add New <PlusCircleFilled />
             </Button>
@@ -72,6 +78,9 @@ const ModalDialog = () => {
                     onChange={(e) => setTitle(e.target.value)}
                     required className={Classes.inputField} />
             </Modal>
+            {isLoading && <Spin tip="Loading" size="large">
+                <div className="content" />
+            </Spin>}
 
         </div>
     )
